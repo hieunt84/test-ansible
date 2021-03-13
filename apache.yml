@@ -9,7 +9,7 @@
       state: "present"  
 
   - name: Start Apache Server
-    service:
+    ansible.builtin.service:
       name: httpd
       state: started
       enable: yes
