@@ -1,12 +1,12 @@
-#Play Intall httpd
+---
 - name: Install httpd
   hosts: webservers_centos
-  become: True
   tasks:
+
   - name: Install httpd
     yum:
-      name: "httpd"
-      state: "present"  
+      name: httpd
+      state: present  
 
   - name: Start Apache Server
     ansible.builtin.service:
@@ -14,11 +14,13 @@
       state: started
       enabled: yes
 
-  - name: Deploy static website
-    copy:
-      src: index.html
-      dest: /var/www/html
-
+#  - name: start
+#    command:
+#      cmd: systemctl start httpd
+#  - name: enable httpd
+#    command:
+#      cmd: systemctl enable httpd
+  
   - name: allow http service
     command:
       cmd: firewall-cmd --permanent --add-service=http
@@ -27,6 +29,11 @@
     command:
       cmd: firewall-cmd --reload
 
+  - name: copy souce code
+    copy:
+      src: index.html 
+      dest: /var/www/html/
+
   - name: check status
     command:
       cmd: systemctl status httpd
@@ -34,5 +41,5 @@
       
   - name: show result on screen 
     debug: var=result.stdout_lines
-
 ...
+
